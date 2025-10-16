@@ -283,6 +283,34 @@ const defaultVideos: Video[] = [
     bookmarks: 1234,
     shares: 567,
   },
+  {
+    id: "20",
+    videoUrl: "/video20.mp4",
+    author: {
+      username: "corn_harvest_hero",
+      avatar: "/farmer-avatar.png",
+    },
+    description: "Harvest season is here! Time to bring in the golden bounty 🌾 #harvest #golden #bounty #farmlife #cornseason",
+    music: "Golden Harvest Anthem",
+    likes: 15800,
+    comments: 923,
+    bookmarks: 1456,
+    shares: 678,
+  },
+  {
+    id: "21",
+    videoUrl: "/video21.mp4",
+    author: {
+      username: "cornfield_nights",
+      avatar: "/woman-farmer.jpg",
+    },
+    description: "Midnight cornfield adventure under the stars ✨🌽 #nighttime #stars #adventure #cornfield #peaceful",
+    music: "Midnight Cornfield Dreams",
+    likes: 13400,
+    comments: 756,
+    bookmarks: 1123,
+    shares: 445,
+  },
 ]
 
 // Get videos from storage or return defaults
