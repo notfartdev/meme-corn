@@ -14,6 +14,8 @@ interface VideoPlayerProps {
 export default function VideoPlayer({ video, isActive, hasUserInteracted }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [hasError, setHasError] = useState(false)
   const playPromiseRef = useRef<Promise<void> | null>(null)
 
   useEffect(() => {
@@ -120,13 +122,39 @@ export default function VideoPlayer({ video, isActive, hasUserInteracted }: Vide
         src={video.videoUrl}
         loop
         playsInline
-        preload="metadata"
+        preload={isActive ? "auto" : "none"}
         className="h-full w-full object-contain"
         onClick={togglePlay}
+        onLoadStart={() => setIsLoading(true)}
+        onCanPlay={() => setIsLoading(false)}
+        onError={() => {
+          setHasError(true)
+          setIsLoading(false)
+        }}
       />
 
+      {/* Loading State */}
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+          <div className="text-center text-white">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+            <p className="text-sm">Loading video...</p>
+          </div>
+        </div>
+      )}
+
+      {/* Error State */}
+      {hasError && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+          <div className="text-center text-white">
+            <div className="text-4xl mb-4">⚠️</div>
+            <p className="text-sm">Failed to load video</p>
+          </div>
+        </div>
+      )}
+
       {/* Play/Pause Overlay */}
-      {!isPlaying && (
+      {!isPlaying && !isLoading && !hasError && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/20" onClick={togglePlay}>
           <div className="rounded-full bg-background/80 p-6">
             <Play className="h-12 w-12 text-foreground" fill="currentColor" />

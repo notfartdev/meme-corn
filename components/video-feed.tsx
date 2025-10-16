@@ -59,14 +59,33 @@ export default function VideoFeed() {
   return (
     <div className="h-screen w-full bg-black flex items-center justify-center">
       <div ref={containerRef} className="h-screen w-full max-w-[500px] overflow-y-scroll snap-container hide-scrollbar">
-        {videos.map((video, index) => (
-          <VideoPlayer 
-            key={video.id} 
-            video={video} 
-            isActive={index === currentVideoIndex} 
-            hasUserInteracted={hasUserInteracted}
-          />
-        ))}
+        {videos.map((video, index) => {
+          // Only render videos that are currently visible or adjacent
+          const isVisible = Math.abs(index - currentVideoIndex) <= 1
+          
+          if (!isVisible) {
+            return (
+              <div 
+                key={video.id} 
+                className="h-screen w-full max-w-[500px] mx-auto snap-item bg-black flex items-center justify-center"
+              >
+                <div className="text-center text-white">
+                  <div className="text-6xl mb-4">🌽</div>
+                  <p className="text-sm">Scroll to load video</p>
+                </div>
+              </div>
+            )
+          }
+          
+          return (
+            <VideoPlayer 
+              key={video.id} 
+              video={video} 
+              isActive={index === currentVideoIndex} 
+              hasUserInteracted={hasUserInteracted}
+            />
+          )
+        })}
       </div>
       
       {/* Click to start overlay */}
